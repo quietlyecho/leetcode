@@ -3,4 +3,4 @@
 
 Notes:
 - Each script is named after the question index on LeetCode site
-- The solution are in Python
+- Currently includes solutions for database questions (in SQL) and some algorithm questions (in Python)
