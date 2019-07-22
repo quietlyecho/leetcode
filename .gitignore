@@ -3,3 +3,10 @@ __pycache__/
 *.py[cod]
 *.$py.class
 *.txt
+
+# temp files
+*~
+
+# directories
+data/
+test/
