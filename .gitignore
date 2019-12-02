@@ -4,6 +4,10 @@ __pycache__/
 *.$py.class
 *.txt
 
+# jupyter notebook
+*.ipynb
+.ipynb_checkpoints/*
+
 # temp files
 *~
 
