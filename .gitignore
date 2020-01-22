@@ -12,7 +12,6 @@ __pycache__/
 *~
 
 # directories
-data/*.csv
-data/*.json
+data/
 test/
 schema/
