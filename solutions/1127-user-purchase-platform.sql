@@ -3,6 +3,51 @@
 */
 
 -- method 1, MS SQL/Postgres
+-- Note: 
+--  Please refer to this answer:
+--      https://leetcode.com/problems/user-purchase-platform/discuss/338776/MySQL-Solution-With-Explanations-(Faster-Than-100)
+--  The key are:
+--      * Creation of t2 - turns vertical values to be on same row
+--      * Creation of t1
+
+SELECT
+    t1.spend_date, t1.platform,
+    SUM(COALESCE(t3.total_amount, 0)) AS total_amount,
+    COUNT(t3.user_id) AS total_users
+FROM
+    (
+        SELECT DISTINCT spend_date, 'mobile' AS platform
+        FROM Spending
+
+        UNION
+
+        SELECT DISTINCT spend_date, 'desktop' AS platform
+        FROM Spending
+
+        UNION
+
+        SELECT DISTINCT spend_date, 'both' AS platform
+        FROM Spending
+    ) t1
+    LEFT OUTER JOIN (
+        SELECT
+            t2.user_id, t2.spend_date,
+            CASE WHEN desktop_amount > 0 AND mobile_amount > 0 THEN 'both'
+                WHEN desktop_amount > 0 AND mobile_amount = 0 THEN 'desktop'
+                WHEN desktop_amount = 0 AND mobile_amount > 0 THEN 'mobile'
+                ELSE 'check' END AS platform,
+            desktop_amount + mobile_amount AS total_amount
+        FROM (
+            SELECT s.user_id, s.spend_date,
+                SUM(CASE WHEN s.platform = 'desktop' THEN s.amount ELSE 0 END) AS desktop_amount,
+                SUM(CASE WHEN s.platform = 'mobile' THEN s.amount ELSE 0 END) AS mobile_amount
+            FROM Spending s
+            GROUP BY s.user_id, s.spend_date
+        ) t2
+    ) t3 ON t1.spend_date = t3.spend_date AND t1.platform = t3.platform
+GROUP BY t1.spend_date, t1.platform
+
+-- method 2, MS SQL/Postgres
 -- Note: the creation of t5 is key.
 WITH t1 AS (
         SELECT *,
