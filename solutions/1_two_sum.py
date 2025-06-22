@@ -2,9 +2,11 @@
 # Question: https://leetcode.com/problems/two-sum/
 #
 
+from typing import List, Optional
+
 # method 1, brute force
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+class Solution_1:
+    def twoSum(self, nums: List[int], target: int) -> Optional[List[int]]:
         for i in range(0, len(nums)):
             remain = target - nums[i]
             for j in range(i+1, len(nums)):
@@ -13,10 +15,10 @@ class Solution:
 
 # method 2, use two-pass hash table 
 # the hash table is used to store values and their indices
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+class Solution_2:
+    def twoSum(self, nums: List[int], target: int) -> Optional[List[int]]:
         if len(nums) <= 1:
-            return False
+            raise ValueError("Invalid nums input")
 
         d = {}
 
@@ -29,11 +31,10 @@ class Solution:
                 return([j, d[complement]])
 
 # method 3, use one-pass hash table
-# [to do] still needs to enhance my understanding on this method
-class Solution:
-    def twoSum(self, nums: List[int], target: int) -> List[int]:
+class Solution_3:
+    def twoSum(self, nums: List[int], target: int) -> Optional[List[int]]:
         if len(nums) <= 1:
-            return False
+           raise ValueError("Invalid nums input")
 
         d = {}
 
